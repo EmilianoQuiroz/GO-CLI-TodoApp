@@ -17,7 +17,24 @@ func ListTasks(tasks []Task) {
 		return
 	}
 	// EN caso de que el arreglo tenga tareas
-	for i, task := range tasks{
-		fmt.Printf("%d %s\n", i, task.Name)
+	for _, task := range tasks{
+		// Con la variable status definimos el estado de la tareas
+		status := " "
+		if task.Complete{ // Si el estado de la tarea esta en true 
+			//Vamos a colocar un check
+			status = "✓"
+		}
+		fmt.Printf("[%s] %d %s\n", status, task.ID, task.Name)
 	}
+}
+
+//Funcion para agregar tareas
+func AddTask(tasks []Task, name string) []Task{
+	newTask := Task{
+		ID: 10,
+		Name: name,
+		Complete: false,
+	}
+
+	return append(tasks, newTask)
 }

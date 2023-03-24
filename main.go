@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
 	"os" //El paquete os nos permite modificar archivos
+	"strings"
 
 	task "github.com/EmilianoQuiroz/GO-CLI-TodoApp/tasks"
 )
@@ -63,10 +65,18 @@ func main() {
 	}
 
 	switch os.Args[1] {
-	// En caso de que el usuario elija la opcion listar le mostramos la lista de tareas
-	case "listar":
+	// En caso de que el usuario elija la opcion Listar le mostramos la lista de tareas
+	case "Listar":
 		task.ListTasks(tasks)
+	//En caso de que el usuario elija la opcion Agregar
+	case "Agregar":
+		reader := bufio.NewReader(os.Stdin)
+		fmt.Println("Tipee la tarea a agregar:")
+		name, _ := reader.ReadString('\n')
+		name = strings.TrimSpace(name)
 
+		tasks = task.AddTask(tasks, name)
+		fmt.Println(tasks)
 	}
 }
 
@@ -77,5 +87,5 @@ func printUsage() {
 	// Agregar tareas
 	// Completar tareas
 	// Borrar tareas
-	fmt.Println("Uso: go-cli-TodoApp [listar|Agregar|Completar|Borrar]")
+	fmt.Println("Uso: go-cli-TodoApp [Listar|Agregar|Completar|Borrar]")
 }
