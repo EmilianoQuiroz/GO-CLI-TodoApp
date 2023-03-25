@@ -55,6 +55,18 @@ func DeleteTask(tasks []Task, id int) []Task {
 	return tasks
 }
 
+// Funcion para completar tareas
+func CompleteTask(tasks []Task, id int)[]Task {
+	
+	for i, task := range tasks {
+		if task.ID == id {
+			tasks[i].Complete = true
+			break
+		}
+	}
+	return tasks
+}
+
 // Funcion para guardar las tareas al Json
  func SaveTasks(file *os.File,tasks []Task){
 	bytes, err := json.Marshal(tasks)// Con este metodo podemos transformar un arreglo en un Json 

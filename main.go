@@ -62,7 +62,7 @@ func main() {
 	if (len(os.Args) < 2){
 		// Si el usuario no me pasas el segundo elemento mostramos el contenido de la func printUsage
 		printUsage()
-
+		return
 	}
 
 	switch os.Args[1] {
@@ -91,7 +91,25 @@ func main() {
 		}
 		tasks = task.DeleteTask(tasks, id)
 		task.SaveTasks(file, tasks)	
+
+	// En caso de que el usuario elija la opcion Completar
+	case "Completar":
+		if len(os.Args) < 3 {
+			fmt.Println("Debe proporcionar el ID de la tarea completada.")
+			return
+		}
+		id, err := strconv.Atoi(os.Args[2])
+		if err != nil {
+			fmt.Println("El ID de la tarea debe ser un numero entero.")
+			return
+		}
+		tasks = task.CompleteTask(tasks, id)
+		task.SaveTasks(file, tasks)
+	
+	default:
+		printUsage()
 	}
+
 }
 
 // Funcion para describir el uso de la aplicacion
