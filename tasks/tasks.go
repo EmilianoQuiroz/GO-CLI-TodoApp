@@ -44,6 +44,17 @@ func AddTask(tasks []Task, name string) []Task{
 	return append(tasks, newTask)
 }
 
+// Funcion para eliminar tareas
+func DeleteTask(tasks []Task, id int) []Task {
+	// Para eliminar las tareas hay que recorrer el arreglo
+	for i, task := range tasks {
+		if task.ID == id {
+			return append(tasks[:i], tasks[i+1:]...)
+		}
+	}
+	return tasks
+}
+
 // Funcion para guardar las tareas al Json
  func SaveTasks(file *os.File,tasks []Task){
 	bytes, err := json.Marshal(tasks)// Con este metodo podemos transformar un arreglo en un Json 
