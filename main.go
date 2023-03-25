@@ -7,6 +7,7 @@ import (
 	"io"
 	"os" //El paquete os nos permite modificar archivos
 	"strings"
+	"strconv"// Convertir un string a un entero
 
 	task "github.com/EmilianoQuiroz/GO-CLI-TodoApp/tasks"
 )
@@ -68,7 +69,7 @@ func main() {
 	// En caso de que el usuario elija la opcion Listar le mostramos la lista de tareas
 	case "Listar":
 		task.ListTasks(tasks)
-	//En caso de que el usuario elija la opcion Agregar
+	// En caso de que el usuario elija la opcion Agregar
 	case "Agregar":
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Println("Tipee la tarea a agregar:")
@@ -77,6 +78,19 @@ func main() {
 
 		tasks = task.AddTask(tasks, name)
 		task.SaveTasks(file, tasks)
+	// En caso de que el usuario elija la opcion de Eliminar
+	case "Eliminar":
+		if len(os.Args) < 3 {
+			fmt.Println("Digite el ID de la tarea que quiere eliminar.")
+			return
+		}
+		id, err := strconv.Atoi(os.Args[2])
+		if err != nil {
+			fmt.Println("El ID tiene que ser un numero entero.")
+			return
+		}
+		tasks = task.DeleteTask(tasks, id)
+		task.SaveTasks(file, tasks)	
 	}
 }
 
@@ -87,5 +101,5 @@ func printUsage() {
 	// Agregar tareas
 	// Completar tareas
 	// Borrar tareas
-	fmt.Println("Uso: go-cli-TodoApp [Listar|Agregar|Completar|Borrar]")
+	fmt.Println("Uso: go-cli-TodoApp [Listar|Agregar|Completar|Eliminar]")
 }
