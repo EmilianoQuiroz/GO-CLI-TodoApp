@@ -36,7 +36,7 @@ func ListTasks(tasks []Task) {
 //Funcion para agregar tareas
 func AddTask(tasks []Task, name string) []Task{
 	newTask := Task{
-		ID: 10,
+		ID: GetNextID(tasks),
 		Name: name,
 		Complete: false,
 	}
@@ -75,4 +75,12 @@ func AddTask(tasks []Task, name string) []Task{
 	if err != nil {// Si se produce un error
 		panic(err)// Acabamos con la ejecucion del de la funcion y mostramos el error
 	}
+}
+
+// Funcion para hacer el ID dinamico
+func GetNextID(tasks []Task) int {
+	if len(tasks) == 0 {
+		return 1
+	}
+	return tasks[len(tasks) - 1].ID + 1
 }
