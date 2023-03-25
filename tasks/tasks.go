@@ -1,6 +1,11 @@
 package task
 
-import "fmt"
+import (
+	"bufio"
+	"encoding/json"
+	"fmt"
+	"os"
+)
 
 // Estructura de datos
 type Task struct {
@@ -37,4 +42,37 @@ func AddTask(tasks []Task, name string) []Task{
 	}
 
 	return append(tasks, newTask)
+}
+
+// Funcion para guardar las tareas al Json
+ func SaveTasks(file *os.File,tasks []Task){
+	bytes, err := json.Marshal(tasks)// Con este metodo podemos transformar un arreglo en un Json 
+	
+	if err != nil {// Si se produce un error
+		panic(err)// Acabamos con la ejecucion del de la funcion y mostramos el error
+	}
+	// Si no hay error mostramos los bytes en un archivo
+	_, err = file.Seek(0, 0)
+
+	if err != nil {
+		panic(err)
+	}
+	
+	err = file.Truncate(0)
+	if err != nil {// Si se produce un error
+		panic(err)// Acabamos con la ejecucion del de la funcion y mostramos el error
+	}
+
+	// Escribimos el archivo
+	writer := bufio.NewWriter(file)
+	_, err = writer.Write(bytes)
+	if err != nil {// Si se produce un error
+		panic(err)// Acabamos con la ejecucion del de la funcion y mostramos el error
+	}
+
+	// Con el metodo Flush nos aseguramos que el metodo haya sido escrito
+	err = writer.Flush()
+	if err != nil {// Si se produce un error
+		panic(err)// Acabamos con la ejecucion del de la funcion y mostramos el error
+	}
 }

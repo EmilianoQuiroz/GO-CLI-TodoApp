@@ -76,7 +76,7 @@ func main() {
 		name = strings.TrimSpace(name)
 
 		tasks = task.AddTask(tasks, name)
-		fmt.Println(tasks)
+		task.SaveTasks(file, tasks)
 	}
 }
 
